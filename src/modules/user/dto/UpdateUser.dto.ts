@@ -1,10 +1,15 @@
-import { IsNotEmpty, IsOptional, IsString, MinLength, IsPhoneNumber } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, MinLength, IsPhoneNumber, IsEnum } from 'class-validator';
+import { CargosEnum } from '../../../enums/cargos.enum';
 
 export class UpdateUserDTO {
   @IsOptional()
   @IsString({ message: 'O nome precisa ser uma string.' })
   @IsNotEmpty({ message: 'O nome não pode ser vazio.' })
   nome?: string;
+
+  @IsOptional()
+  @IsEnum(CargosEnum, { message: 'Cargo inválido. Escolha um cargo permitido.' })
+  cargo?: CargosEnum;
 
   @IsOptional()
   @IsPhoneNumber('BR', { message: 'O telefone informado é inválido. Use o formato com DDD.' })

@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
 import * as bcrypt from 'bcrypt';
-import { CargosEnum } from '../enums/cargos.enum';
+import { CargosEnum } from '../../enums/cargos.enum';
 
 @Entity('users')
 export class User {
@@ -12,6 +12,9 @@ export class User {
 
   @Column({ type: 'enum', enum: CargosEnum, default: CargosEnum.UsuarioComum })
   cargo: CargosEnum;
+
+  @Column({ name: 'unidade_id', nullable: true })
+  unidadeId: number | null;
 
   @Column({ unique: true }) // Garante que não existam dois usuários com o mesmo telefone
   telefone: string;
@@ -27,6 +30,7 @@ export class User {
     this.id = dados?.id ?? 0;
     this.nome = dados?.nome ?? '';
     this.cargo = dados?.cargo ?? CargosEnum.UsuarioComum;
+    this.unidadeId = dados?.unidadeId ?? null;
     this.telefone = dados?.telefone ?? '';
     this.bairro = dados?.bairro ?? '';
     this.senha = dados?.senha ?? '';
