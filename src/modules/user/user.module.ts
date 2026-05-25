@@ -1,43 +1,37 @@
-import { Column, Entity, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
-import * as bcrypt from 'bcrypt';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from './user.entity';
+import { UserRepository } from '../../repository/user.repository';
+import { UserService } from '../../service/user.service'; 
+import { UserController } from '../../controller/user.controller'; 
 
-@Entity('users')
-export class User {
-  @PrimaryGeneratedColumn()
-  id: number;
-
-  @Column()
-  nome: string;
-
-  @Column({ unique: true }) // Garante que não existam dois usuários com o mesmo telefone
-  telefone: string;
-
-  @Column()
-  bairro: string;
-
-  @Column()
-  senha: string;
-
-  // O construtor aceita os dados, mas usamos o Partial<User> para o TypeORM não quebrar ao buscar do banco
-  constructor(dados?: Partial<User>) {
-    this.id = dados?.id ?? 0;
-    this.nome = dados?.nome ?? '';
-    this.telefone = dados?.telefone ?? '';
-    this.bairro = dados?.bairro ?? '';
-    this.senha = dados?.senha ?? '';
-  }
-
-  // Criptografa a senha automaticamente antes de inserir no banco
-  @BeforeInsert()
-  async hashSenha() {
-    if (this.senha) {
-      const salt = await bcrypt.genSalt();
-      this.senha = await bcrypt.hash(this.senha, salt);
-    }
-  }
-
-  // Método auxiliar para validar a senha na hora do login
-  async validarSenha(senhaPlana: string): Promise<boolean> {
-    return bcrypt.compare(senhaPlana, this.senha);
-  }
-}
+/**
+ * Módulo de Usuários (UserModule)
+ * 
+ * Este módulo centraliza a gestão de usuários e autenticação do "Postinho do Povo".
+ * Seguindo o padrão de Monólito Modular, ele encapsula sua própria lógica de 
+ * acesso ao banco (Repository), regras de negócio (Service) e rotas (Controller).
+ */
+@Module({
+  imports: [
+    // Registra a entidade User para que o TypeORM possa criar a tabela e gerenciar os dados
+    TypeOrmModule.forFeature([User]),
+  ],
+  controllers: [
+    // Expõe os endpoints HTTP (POST, GET, PATCH, DELETE /usuarios)
+    UserController
+  ],
+  providers: [
+    // Registra o Repositório Customizado para isolar a camada de dados
+    UserRepository, 
+    // Registra o Service para conter as validações e lógica de negócio
+    UserService
+  ],
+  exports: [
+    // Exportamos o Repository e o Service para que outros módulos (ex: Agendamentos)
+    // possam buscar informações de usuários sem duplicar código.
+    UserRepository, 
+    UserService
+  ],
+})
+export class UserModule {}
