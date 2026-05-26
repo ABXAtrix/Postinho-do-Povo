@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './user.entity';
-import { UserRepository } from '../../repository/user.repository';
-import { UserService } from '../../service/user.service'; 
-import { UserController } from '../../controller/user.controller'; 
+import { UserRepository } from './user.repository';
+import { UserService } from './user.service';
+import { UserController } from './user.controller';
 
 /**
  * Módulo de Usuários (UserModule)

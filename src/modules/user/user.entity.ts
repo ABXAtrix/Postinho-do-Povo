@@ -1,6 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn, BeforeInsert } from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  BeforeInsert,
+  JoinColumn,
+  ManyToOne,
+} from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CargosEnum } from '../../enums/cargos.enum';
+import { UnidadeSaude } from '../unidadesaude/unidadesaude.entity';
 
 @Entity('users')
 export class User {
@@ -15,6 +23,12 @@ export class User {
 
   @Column({ name: 'unidade_id', nullable: true })
   unidadeId: number | null;
+
+  @ManyToOne(() => UnidadeSaude, (unidade) => unidade.usuarios, {
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'unidade_id' })
+  unidade?: UnidadeSaude;
 
   @Column({ unique: true }) // Garante que não existam dois usuários com o mesmo telefone
   telefone: string;
@@ -34,6 +48,7 @@ export class User {
     this.telefone = dados?.telefone ?? '';
     this.bairro = dados?.bairro ?? '';
     this.senha = dados?.senha ?? '';
+    this.unidade = dados?.unidade;
   }
 
   // Criptografa a senha automaticamente antes de inserir no banco

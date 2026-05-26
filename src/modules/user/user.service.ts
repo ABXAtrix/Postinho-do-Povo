@@ -3,18 +3,18 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import { UserRepository } from '../repository/user.repository';
-import { CreateUserDTO } from '../modules/user/dto/CreateUser.dto';
-import { UpdateUserDTO } from '../modules/user/dto/UpdateUser.dto';
-import { User } from '../modules/user/user.entity';
-import { CargosEnum } from '../enums/cargos.enum';
+import { UserRepository } from './user.repository';
+import { CreateUserDTO } from './dto/create.user.dto';
+import { UpdateUserDTO } from './dto/update.user.dto';
+import { User } from './user.entity';
+import { CargosEnum } from '../../enums/cargos.enum';
 
 @Injectable()
 export class UserService {
     constructor(private readonly userRepository: UserRepository) {}
-  // Injetamos o nosso repositório customizado no construtor
+  // Injetamos o repositório customizado no construtor
   async cadastrar(createUserDto: CreateUserDTO): Promise<User> {
-    // 1. Validação de telefone duplicado (já está aí e está ótima)
+    // 1. Validação de telefone duplicado
     const usuarioExistente = await this.userRepository.findByTelefone(
       createUserDto.telefone,
     );
@@ -24,7 +24,7 @@ export class UserService {
       );
     }
 
-    // 🌟 Nova Regra: Se for Agente, OBRIGATORIAMENTE precisa de um Postinho vinculado
+    // Nova Regra: Se for Agente, OBRIGATORIAMENTE precisa de um Postinho vinculado
     if (
       createUserDto.cargo === CargosEnum.AgenteSaude &&
       !createUserDto.unidadeId
