@@ -8,7 +8,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CargosEnum } from '../../enums/cargos.enum';
-import { UnidadeSaude } from '../../modules/unidadesaude/unidadesaude.entity';
+import { UnidadeSaude } from '../unidadesaude/unidadesaude.entity';
 
 @Entity('users')
 export class User {
