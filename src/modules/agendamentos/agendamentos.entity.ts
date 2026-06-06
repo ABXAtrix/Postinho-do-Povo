@@ -18,17 +18,17 @@ export class Agendamento {
   usuarioId: number;
 
   // Um usuário pode ter vários agendamentos
-  @ManyToOne(() => User, { onDelete: 'CASCADE' })
+  @ManyToOne(() => User, (user) => user.agendamentos, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'usuario_id' })
-  usuario?: User;
+  usuario!: User;
 
   @Column({ name: 'unidade_id' })
   unidadeId: number;
 
   // Uma unidade de saúde pode receber vários agendamentos
-  @ManyToOne(() => UnidadeSaude, { onDelete: 'CASCADE' })
+  @ManyToOne(() => UnidadeSaude, (unidade) => unidade.agendamentos, { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'unidade_id' })
-  unidade?: UnidadeSaude;
+  unidade!: UnidadeSaude;
 
   @Column()
   servico: string; // Ex: "Consulta Médica", "Vacinação", "Odontologia"
@@ -54,8 +54,8 @@ export class Agendamento {
     this.data = dados?.data ?? '';
     this.horario = dados?.horario ?? '';
     this.status = dados?.status ?? StatusAgendamentoEnum.PENDENTE;
-    this.usuario = dados?.usuario;
-    this.unidade = dados?.unidade;
+    this.usuario = dados?.usuario!;
+    this.unidade = dados?.unidade!;
   }
 
   // GETTER PARA FORMATAR A DATA NO PADRÃO BRASILEIRO (DD/MM/YYYY)

@@ -1,5 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { User } from '../user/user.entity';
+import { Agendamento } from '../agendamentos/agendamentos.entity';
 
 @Entity('unidade_saude')
 export class UnidadeSaude {
@@ -12,6 +13,9 @@ export class UnidadeSaude {
 
   @OneToMany(() => User, (user) => user.unidade)
   usuarios?: User[];
+
+  @OneToMany(() => Agendamento, (agendamento) => agendamento.unidade)
+  agendamentos?: Agendamento[];
 
   @Column()
   endereco: string;
@@ -32,6 +36,7 @@ export class UnidadeSaude {
     this.id = dados?.id ?? 0;
     this.nome = dados?.nome ?? '';
     this.usuarios = dados?.usuarios ?? [];
+    this.agendamentos = dados?.agendamentos ?? [];
     this.endereco = dados?.endereco ?? '';
     this.bairro = dados?.bairro ?? '';
     this.telefone = dados?.telefone ?? '';
