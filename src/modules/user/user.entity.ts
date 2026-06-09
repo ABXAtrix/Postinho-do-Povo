@@ -5,10 +5,12 @@ import {
   BeforeInsert,
   JoinColumn,
   ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { CargosEnum } from '../../enums/cargos.enum';
 import { UnidadeSaude } from '../unidadesaude/unidadesaude.entity';
+import { Agendamento } from '../agendamentos/agendamentos.entity';
 
 @Entity('users')
 export class User {
@@ -30,6 +32,9 @@ export class User {
   @JoinColumn({ name: 'unidade_id' })
   unidade?: UnidadeSaude;
 
+  @OneToMany(() => Agendamento, (agendamento) => agendamento.usuario)
+  agendamentos?: Agendamento[];
+
   @Column({ unique: true }) // Garante que não existam dois usuários com o mesmo telefone
   telefone: string;
 
@@ -49,6 +54,7 @@ export class User {
     this.bairro = dados?.bairro ?? '';
     this.senha = dados?.senha ?? '';
     this.unidade = dados?.unidade;
+    this.agendamentos = dados?.agendamentos ?? [];
   }
 
   // Criptografa a senha automaticamente antes de inserir no banco
