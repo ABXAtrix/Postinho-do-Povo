@@ -35,8 +35,8 @@ export class UnidadeSaude {
   constructor(dados?: Partial<UnidadeSaude>) {
     this.id = dados?.id ?? 0;
     this.nome = dados?.nome ?? '';
-    this.usuarios = dados?.usuarios ?? [];
-    this.agendamentos = dados?.agendamentos ?? [];
+    this.usuarios = dados?.usuarios;
+    this.agendamentos = dados?.agendamentos;
     this.endereco = dados?.endereco ?? '';
     this.bairro = dados?.bairro ?? '';
     this.telefone = dados?.telefone ?? '';

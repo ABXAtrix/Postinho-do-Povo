@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './modules/user/user.module';
 import { UnidadeSaudeModule } from './modules/unidadesaude/unidadesaude.module';
+import { AgendamentosModule } from './modules/agendamentos/agendamento.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { UnidadeSaudeModule } from './modules/unidadesaude/unidadesaude.module';
     // 2. Registro dos módulos do monólito
     UserModule,
     UnidadeSaudeModule,
+    AgendamentosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
