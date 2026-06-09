@@ -54,7 +54,7 @@ export class User {
     this.bairro = dados?.bairro ?? '';
     this.senha = dados?.senha ?? '';
     this.unidade = dados?.unidade;
-    this.agendamentos = dados?.agendamentos ?? [];
+    this.agendamentos = dados?.agendamentos;
   }
 
   // Criptografa a senha automaticamente antes de inserir no banco
