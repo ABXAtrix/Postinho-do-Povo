@@ -7,6 +7,7 @@ import { UserModule } from './modules/user/user.module';
 import { UnidadeSaudeModule } from './modules/unidadesaude/unidadesaude.module';
 import { AgendamentosModule } from './modules/agendamentos/agendamento.module';
 import { ServicosModule } from './modules/servicos/servicos.module';
+import { CampanhasModule } from './modules/campanha/campanhas.module';
 
 @Module({
   imports: [
@@ -34,6 +35,7 @@ import { ServicosModule } from './modules/servicos/servicos.module';
     UnidadeSaudeModule,
     AgendamentosModule,
     ServicosModule,
+    CampanhasModule,
   ],
   controllers: [AppController],
   providers: [AppService],

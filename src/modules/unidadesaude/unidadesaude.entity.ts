@@ -2,6 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTabl
 import { User } from '../user/user.entity';
 import { Agendamento } from '../agendamentos/agendamentos.entity';
 import { Servico } from '../servicos/servicos.entity';
+import { Campanha } from '../campanha/campanhas.entity';
 
 @Entity('unidade_saude')
 export class UnidadeSaude {
@@ -26,6 +27,11 @@ export class UnidadeSaude {
   })
   servicos?: Servico[];
 
+  // 2. Mapeamento bidirecional com Campanhas
+  // Indica que várias unidades participam de várias campanhas
+  @ManyToMany(() => Campanha, (campanha) => campanha.unidades)
+  campanhas?: Campanha[];
+
   @Column()
   endereco: string;
 
@@ -47,6 +53,7 @@ export class UnidadeSaude {
     this.usuarios = dados?.usuarios;
     this.agendamentos = dados?.agendamentos;
     this.servicos = dados?.servicos;
+    this.campanhas = dados?.campanhas;
     this.endereco = dados?.endereco ?? '';
     this.bairro = dados?.bairro ?? '';
     this.telefone = dados?.telefone ?? '';
