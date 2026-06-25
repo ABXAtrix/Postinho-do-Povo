@@ -6,8 +6,8 @@ export class CreateFaqDTO {
   pergunta!: string;
 
   @IsString({ message: 'A resposta precisa ser uma string.' })
-  @IsNotEmpty({ message: 'A resposta não pode ser vazia.' })
-  resposta!: string;
+  @IsOptional()
+  resposta?: string;
 
   @IsInt({ message: 'O ID da campanha precisa ser um número inteiro.' })
   @IsOptional()

@@ -16,8 +16,8 @@ export class Faq {
   @Column()
   pergunta: string; // Ex: "O postinho vai abrir na emenda de feriado?"
 
-  @Column({ type: 'text' })
-  resposta: string; // Ex: "Não, funcionaremos apenas até a quinta-feira."
+  @Column({ type: 'text', nullable: true })
+  resposta?: string; // Ex: "Não, funcionaremos apenas até a quinta-feira."
 
   // Relacionamento com Campanha (Opcional agora)
   @ManyToOne(() => Campanha, (campanha) => campanha.faqs, {
@@ -35,7 +35,7 @@ export class Faq {
   constructor(dados?: Partial<Faq>) {
     this.id = dados?.id ?? 0;
     this.pergunta = dados?.pergunta ?? '';
-    this.resposta = dados?.resposta ?? '';
+    this.resposta = dados?.resposta;
     this.campanha = dados?.campanha;
     this.unidadeSaude = dados?.unidadeSaude;
   }
