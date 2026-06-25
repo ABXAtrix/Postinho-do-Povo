@@ -8,6 +8,7 @@ import { UnidadeSaudeModule } from './modules/unidadesaude/unidadesaude.module';
 import { AgendamentosModule } from './modules/agendamentos/agendamento.module';
 import { ServicosModule } from './modules/servicos/servicos.module';
 import { CampanhasModule } from './modules/campanha/campanhas.module';
+import { FaqModule } from './modules/perguntasfrequentes/faq.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { CampanhasModule } from './modules/campanha/campanhas.module';
     AgendamentosModule,
     ServicosModule,
     CampanhasModule,
+    FaqModule,
   ],
   controllers: [AppController],
   providers: [AppService],
