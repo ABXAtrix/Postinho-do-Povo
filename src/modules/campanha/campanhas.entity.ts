@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Column, Entity, PrimaryGeneratedColumn, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { UnidadeSaude } from '../unidadesaude/unidadesaude.entity';
+import { Faq } from '../perguntasfrequentes/faq.entity'
 
 @Entity('campanhas')
 export class Campanha {
@@ -34,6 +35,9 @@ export class Campanha {
   })
   unidades?: UnidadeSaude[];
 
+  @OneToMany(() => Faq, (faq) => faq.campanha)
+  faqs?: Faq[];
+
   constructor(dados?: Partial<Campanha>) {
     this.id = dados?.id ?? 0;
     this.titulo = dados?.titulo ?? '';
@@ -43,5 +47,6 @@ export class Campanha {
     this.dataFim = dados?.dataFim ?? new Date();
     this.local = dados?.local ?? '';
     this.unidades = dados?.unidades;
+    this.faqs = dados?.faqs;
   }
 }

@@ -1,12 +1,19 @@
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany, ManyToMany, JoinTable} from 'typeorm';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
 import { User } from '../user/user.entity';
 import { Agendamento } from '../agendamentos/agendamentos.entity';
 import { Servico } from '../servicos/servicos.entity';
 import { Campanha } from '../campanha/campanhas.entity';
+import { Faq } from '../perguntasfrequentes/faq.entity';
 
 @Entity('unidade_saude')
 export class UnidadeSaude {
-
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -23,7 +30,7 @@ export class UnidadeSaude {
   @JoinTable({
     name: 'unidade_servicos', // Nome da tabela pivô no banco
     joinColumn: { name: 'unidade_id', referencedColumnName: 'id' },
-    inverseJoinColumn: { name: 'servico_id', referencedColumnName: 'id' }
+    inverseJoinColumn: { name: 'servico_id', referencedColumnName: 'id' },
   })
   servicos?: Servico[];
 
@@ -31,6 +38,9 @@ export class UnidadeSaude {
   // Indica que várias unidades participam de várias campanhas
   @ManyToMany(() => Campanha, (campanha) => campanha.unidades)
   campanhas?: Campanha[];
+
+  @OneToMany(() => Faq, (faq) => faq.unidadeSaude)
+  faqs?: Faq[];
 
   @Column()
   endereco: string;
@@ -54,6 +64,7 @@ export class UnidadeSaude {
     this.agendamentos = dados?.agendamentos;
     this.servicos = dados?.servicos;
     this.campanhas = dados?.campanhas;
+    this.faqs = dados?.faqs;
     this.endereco = dados?.endereco ?? '';
     this.bairro = dados?.bairro ?? '';
     this.telefone = dados?.telefone ?? '';

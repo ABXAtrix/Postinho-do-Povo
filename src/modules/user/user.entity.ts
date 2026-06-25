@@ -23,7 +23,6 @@ export class User {
   @Column({ type: 'enum', enum: CargosEnum, default: CargosEnum.UsuarioComum })
   cargo: CargosEnum;
 
-  @Column({ name: 'unidade_id', nullable: true })
   unidadeId: number | null;
 
   @ManyToOne(() => UnidadeSaude, (unidade) => unidade.usuarios, {
